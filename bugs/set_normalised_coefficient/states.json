@@ -1,0 +1,21 @@
+{
+  "on": {
+    "next_state": "cleaning",
+    "duration_type": "fixed_duration",
+    "max_duration_key": "run_time",
+    "include": true
+  },
+  "cleaning": {
+    "next_state": "off",
+    "duration_type": "fixed_duration",
+    "max_duration_key": "cleaning_time",
+    "include": true
+  },
+  "off": {
+    "next_state": "on",
+    "duration_type": "random_duration",
+    "min_duration_key": "min_off_time",
+    "max_duration_key": "max_off_time",
+    "include": false
+  }
+}

@@ -1,0 +1,29 @@
+// --------------------------------------------------------------------------
+// Licensed Materials - Property of IBM
+//
+// 5725-A06 5725-A29 5724-Y48 5724-Y49 5724-Y54 5724-Y55
+// Copyright IBM Corporation 1998, 2022. All Rights Reserved.
+//
+// Note to U.S. Government Users Restricted Rights:
+// Use, duplication or disclosure restricted by GSA ADP Schedule
+// Contract with IBM Corp.
+// --------------------------------------------------------------------------
+
+NbResources = 4;
+// [A->B, B-Output, ACleaning, BCleaning]
+TotalCapacity = [ 1000, 1000, 1000, 1000]; 
+StartingCapacity = [100, 100, 100, 100];
+
+Events = { 
+  < 1, 8, [ 10, 0, 0, 0 ], [0, 0, 0, 0], { 3 } >, // MachineA Running
+  < 2, 8, [ 0, 10, 0, 0 ], [9, 0, 0, 0], { 4 } >, // MachineB Running
+  < 3, 1, [ 0, 0, 0, 0 ], [0, 0, 0, 0], { 5 } >, // MachineA Off
+  < 4, 1, [ 0, 0, 0, 0 ], [0, 0, 0, 0], { 6 } >, // MachineB Off
+  < 5, 2, [ 0, 0, 0, 0 ], [0, 0, 9, 0], { 7 } >, // MachineA Cleaning
+  < 6, 2, [ 0, 0, 0, 0 ], [0, 0, 0, 9], { 8 } >, // MachineB Cleaning
+  < 7, 8, [ 10, 0, 0, 8 ], [0, 0, 0, 0], { 9 } >, // mA R
+  < 8, 8, [ 0, 10, 0, 5 ], [6, 0, 0, 0], { 10 } >, // mB R
+  < 9, 8, [ 10, 0, 0, 0 ], [0, 0, 0, 0], { } >, // mA R
+  < 10, 8, [ 0, 10, 0, 0 ], [6, 0, 0, 0], { } >, //mB R
+ }; 
+

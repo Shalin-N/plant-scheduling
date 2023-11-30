@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+    	
+    <version>1.0</version>
+    	
+    <configs>
+        		
+        <config default="false" name="Configuration1" category="opl">
+            			
+            <ref name="Generalised.mod" type="model">
+			</ref>
+            			
+            <ref name="Fonterra.ops" type="setting">
+			</ref>
+            		
+        </config>
+        		
+        <config default="false" name="Configuration3" category="opl">
+            			
+            <ref name="Cyclical.mod" type="model">
+			</ref>
+            			
+            <ref name="Fonterra.ops" type="setting">
+			</ref>
+            		
+        </config>
+        		
+        <config default="true" name="Configuration4" category="opl">
+            			
+            <ref name="State.mod" type="model">
+			</ref>
+            			
+            <ref name="RealisticState.dat" type="data">
+			</ref>
+            		
+        </config>
+        		
+        <config default="false" name="Configuration5" category="opl">
+            			
+            <ref name="Alternate.mod" type="model">
+			</ref>
+            			
+            <ref name="Alternate.dat" type="data">
+			</ref>
+            		
+        </config>
+        		
+        <config default="false" name="Configuration6" category="opl">
+            			
+            <ref name="Alternate2.mod" type="model">
+			</ref>
+            			
+            <ref name="Alternate2.dat" type="data">
+			</ref>
+            		
+        </config>
+        	
+    </configs>
+    	
+
+</project>

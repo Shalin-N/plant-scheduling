@@ -1,0 +1,25 @@
+{
+  "machine1": {
+    "initial_state": "on",
+    "initial_time": 1,
+    "run_time": 8,
+    "cleaning_time": 3,
+    "min_off_time": 0,
+    "max_off_time": 3,
+    "rates": [-5, 10],
+    "flows": ["silo1", "silo2"],
+    "cleaner_key": "cleaner1"
+  },
+  "machine2": {
+    "initial_state": "cleaning",
+    "initial_time": 1,
+    "run_time": 7,
+    "cleaning_time": 3,
+    "min_off_time": 0,
+    "max_off_time": 3,
+    "rates": [-10, 20],
+    "flows": ["silo2", "silo3"], 
+    "cleaner_key": "cleaner1"
+  }
+}
+ 

@@ -1,0 +1,52 @@
+// --------------------------------------------------------------------------
+// Licensed Materials - Property of IBM
+//
+// 5725-A06 5725-A29 5724-Y48 5724-Y49 5724-Y54 5724-Y55
+// Copyright IBM Corporation 1998, 2022. All Rights Reserved.
+//
+// Note to U.S. Government Users Restricted Rights:
+// Use, duplication or disclosure restricted by GSA ADP Schedule
+// Contract with IBM Corp.
+// --------------------------------------------------------------------------
+
+
+NbResources    = 3;
+//[A->B, B, Dirtyness ]
+TotalCapacity = [ 1000, 1000, 20 ]; 
+StartingCapacity = [80, 0, 0];
+
+// Might be able to build this as it is a simple pattern
+Events = {
+  < 0, "machineA", { 1 } >,
+  < 1, "machineA", { 2 } >,
+  < 2, "machineA", { 3 } >,
+  < 3, "machineA", { 4 } >,
+  < 4, "machineA", { 5 } >,
+  < 5, "machineA", { 6 } >,
+  < 6, "machineA", {  } >,
+  //< 7, "machineB", { 8 } >,
+  //< 8, "machineB", { 9 } >,
+  //< 9, "machineB", { 10 } >,
+  //< 10, "machineB", {  } >,
+ }; 
+ 
+ // Trying to use this makes the solver never complete 
+ // I believe this is because only 1 state can be linked to 1 event 
+ // So this smart formulation that avoid repition (as seen in stateBased) doesn't work
+ States = {
+  < "machineA", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+  < "machineA", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >
+  < "machineA", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+  < "machineA", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >
+  < "machineA", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+  < "machineA", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >
+  < "machineA", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+  < "machineA", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >
+  < "machineA", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+  < "machineA", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >
+  < "machineA", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+  < "machineA", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >,
+//  < "machineB", "Running", 8, [ 0, 10, 8 ], [ 5, 0, 0 ] >,
+//  < "machineB", "Cleaning", 2, [ 0, 0, 0 ], [ 0, 0, 8 ] >,
+ };
+

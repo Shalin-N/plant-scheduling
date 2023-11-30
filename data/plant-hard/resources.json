@@ -1,0 +1,98 @@
+{
+  "silo1": {
+    "min_capacity": 0,
+    "max_capacity": 1000,
+    "initial_volume": 500,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo2": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo3": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo4": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo5": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo6": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo7": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "silo8": {
+    "min_capacity": 0,
+    "max_capacity": 600,
+    "initial_volume": 300,
+    "rates": [],
+    "type": "storage",
+    "flows": []
+  },
+  "cleaner1": {
+    "min_capacity": 0,
+    "max_capacity": 2,
+    "initial_volume": 1,
+    "rates": [-1, -1, -1, -1],
+    "type": "renewable",
+    "flows": ["machine1a", "machine1b","machine1c","machine1d"]
+  },
+  "cleaner2": {
+    "min_capacity": 0,
+    "max_capacity": 1,
+    "initial_volume": 1,
+    "rates": [-1, -1, -1],
+    "type": "renewable",
+    "flows": ["machine2", "machine3a", "machine3b"]
+  },
+  "cleaner3": {
+    "min_capacity": 0,
+    "max_capacity": 1,
+    "initial_volume": 1,
+    "rates": [-1, -1, -1],
+    "type": "renewable",
+    "flows": ["machine4a", "machine4b", "machine5"]
+  },
+  "cleaner4": {
+    "min_capacity": 0,
+    "max_capacity": 1,
+    "initial_volume": 1,
+    "rates": [-1, -1],
+    "type": "renewable",
+    "flows": ["machine6", "machine7"]
+  }
+}

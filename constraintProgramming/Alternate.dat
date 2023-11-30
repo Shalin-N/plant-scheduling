@@ -1,0 +1,53 @@
+//[A->B, B-Ouput, DirtynessA, DirtynessB]
+NbResources = 4;
+TotalCapacity = [1000, 1000, 200, 200]; 
+StartingCapacity = [0, 0, 0, 10];
+
+Events = {
+  < 0, "machine1a", { 1 } >,
+  < 1, "machine1a", { 2 } >,
+  < 2, "machine1a", { 3 } >,
+  < 3, "machine1a", { 4 } >,
+  < 4, "machine1a", { 5 } >,
+  < 5, "machine1a", { 6 } >,
+  < 6, "machine1a", {  } >,
+  
+  < 7, "machineB", { 8 } >,
+  < 8, "machineB", { 9 } >,
+  < 9, "machineB", { 10 } >,
+  < 10, "machineB", {  } >,
+ }; 
+
+// Negative values don't work in sum functions [sum(a in A) -] 
+// but negative sum functions do [- sum(a in A)] so need to use a seperate produce and consume array
+// ALSO difficulty in implementing idle states, 
+// inclusion of idle makes the solver always thinks being idle forever is the best solution 
+// because it produces no resource, same goes for including shorter running states
+// it will always pick the shorter one because it keeps it futher away from the capacity limit
+States = {
+  < 0, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 0, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 8, 0 ] >,
+  < 0, "Idle", 4, [0, 0, 0, 0], [0, 0, 0, 0] >,
+  < 1, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 1, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 7, 0 ] >,
+  < 2, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 2, "Cleaning", 2, [ 0, 0, 0, 0 ] , [ 0, 0, 7, 0 ] >,
+  < 3, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 3, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 7, 0 ] >,
+  < 4, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 4, "Cleaning", 2, [ 0, 0, 0, 0 ] , [ 0, 0, 7, 0 ] >,
+  < 5, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 5, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 7, 0 ] >,
+  < 6, "Running", 8, [ 0, 10, 8, 0 ], [ 5, 0, 0, 0 ] >,
+  < 6, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 7, 0 ] >,
+  
+  < 7, "Running", 8, [ 10, 0, 0, 8 ], [ 0, 0, 0, 0 ] >,
+  < 7, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 0, 7 ] >,
+  < 8, "Running", 8, [ 10, 0, 0, 8 ], [ 0, 0, 0, 0 ] >,
+  < 8, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 0, 7 ] >,
+  < 9, "Running", 8, [ 10, 0, 0, 8 ], [ 0, 0, 0, 0 ] >,
+  < 9, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 0, 7 ] >,
+  < 10, "Running", 8, [ 10, 0, 0, 8 ], [ 0, 0, 0, 0 ] >,
+  < 10, "Cleaning", 2, [ 0, 0, 0, 0 ], [ 0, 0, 0, 7 ] >,
+ };
+

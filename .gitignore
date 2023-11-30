@@ -1,0 +1,6 @@
+#Random excel files
+*.csv
+*.xlsx
+*.txt
+.*/
+src/test.ipynb
