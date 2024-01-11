@@ -1,51 +1,48 @@
-# FonterraP4P
-This repo contains all the files required to run project code
-
-Prequisities for running this repo are:
-- Julia v1.8.5
-- Jump v1.13.0
-- JSON v0.21.4
-- DataFrame v1.5.0
-- XLSX v0.9.0
-- Gorubi v1.0.2 and a valid license 
-
-The bug folder contains reproduction of a bug in found in JuMP
-The constraintProgramming folder contains files for that approach with its own README
-The src folder contains all the functions and helper functions for running the MIP solution
-
-The example folder constains solve.jl that simplifies the proccess of using our code.
-for each solve you can specificy the parameters, and options you want to use:
-const DATA_PATH::String = "the folder path of JSONs"
-const MAX_ITER::Int64 =  50 # max number of itterations
-const MAX_TIME = 60 # seconds (this is per solve)
-const TOL::Float64 = 0.0001 # maximum tolerance for convergence 
-const SOLVES::Int64 = 2 # how mant time windows you want to solve
-const SOLVE_PERIOD::Int64 = 36 # time points (easier to thank as hours)
-const LOCK_PERIOD::Int64 = 24 # time points (easier to thank as hours)
-const PERIOD_INCREMENT::Float64 = 1 # time points (easier to thank as hours)
-const RECORD_SOLVES::Bool = true # output each solve to an excel 
-const RECORD_ITTR::Bool = false # output each itteration to an excel
-const RECORD_TIMINGS::Bool = false # output timings of each itteration to excel
-const PRINT_ITTERATIONS::Bool = true # output itterations to console 
-const USE_CONVERGENCE::Bool = true # decision whether to use convergence or not
-const USE_COLUMN_AGE = true # decision whether to use column ageing or not
-const AMOUNT_TO_FIX = 1  # amount of infeasible states to fix per itteration of the hueristic
-const VISUALISE::Bool = false # output code in a special format for visualisation, note this should be disabled for normal use, and if run the RECORD bools should be set to false
+# Plant Scheduling
 
 
+The bug folder contains reproduction of a bug in found in JuMP <br />
+The constraintProgramming folder contains files for that approach with its own README <br />
+The src folder contains all the functions and helper functions for running the MIP solution <br />
+The example folder constains solve.jl that simplifies the proccess of running the code. <br />
 
-The data folder contains different plant setups, formatted as 4 JSONs for ingestition into the model
-there are 4 JSONs used to describe a plant are: deliveries, machines, resources, and states.
+## How to Use
+### Solve Parameters
+for each solve you can specificy the parameters, and options you want to use: <br />
 
-For deliveres the JSON is formatted
+const DATA_PATH::String = "the folder path of JSONs" <br />
+const MAX_ITER::Int64 =  50 # max number of itterations <br />
+const MAX_TIME = 60 # seconds (this is per solve) <br />
+const TOL::Float64 = 0.0001 # maximum tolerance for convergence <br />
+const SOLVES::Int64 = 2 # how mant time windows you want to solve <br />
+const SOLVE_PERIOD::Int64 = 36 # time points (easier to thank as hours) <br />
+const LOCK_PERIOD::Int64 = 24 # time points (easier to thank as hours) <br />
+const PERIOD_INCREMENT::Float64 = 1 # time points (easier to thank as hours) <br />
+const RECORD_SOLVES::Bool = true # output each solve to an excel <br />
+const RECORD_ITTR::Bool = false # output each itteration to an excel <br />
+const RECORD_TIMINGS::Bool = false # output timings of each itteration to excel <br />
+const PRINT_ITTERATIONS::Bool = true # output itterations to console <br /> 
+const USE_CONVERGENCE::Bool = true # decision whether to use convergence or not <br />
+const USE_COLUMN_AGE = true # decision whether to use column ageing or not <br />
+const AMOUNT_TO_FIX = 1  # amount of infeasible states to fix per itteration of the hueristic <br />
+
+
+### Data Structure
+The data folder contains different plant setups, formatted as 4 JSONs for ingestition into the model <br />
+there are 4 JSONs used to describe a plant are: deliveries, machines, resources, and states. <br />
+
+For deliveres the JSON is formatted 
+```json
 {
   "storage_resource_name": {
     "time_ppoint": x, (the time point at whichs this volume change should happen)
     "volume": x
   }
 }
+```
 
 For Machines the JSON is formatted
+```json
 {
   "machine_name": {
     "initial_state": "off",
@@ -59,8 +56,11 @@ For Machines the JSON is formatted
     "cleaner_key": "cleaner1" (which cleaner subgroup this machine belongs to)
   }
 }
+```
+
 
 For Resources the JSON is formatted
+```json
 {
   "resource_name": {
     "min_capacity": 0,
@@ -71,8 +71,12 @@ For Resources the JSON is formatted
     "flows": [] (applicable for cleaner resources indicating which machine belongs to this cleaner)
   }
 }
+```
+
+
 
 For States the JSON is formatted
+```json
 {
   "state_name": {
     "next_state": "state_name",
@@ -82,3 +86,4 @@ For States the JSON is formatted
     "include": true (whether this state is to be considered used or the cycling of states)
   }
 }
+```
