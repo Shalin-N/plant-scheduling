@@ -9,7 +9,7 @@ include("rolling_horizon.jl")
 function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
                          SOLVES::Int64, SOLVE_PERIOD::Int64, LOCK_PERIOD::Int64, PERIOD_INCREMENT::Float64,
                          RECORD_SOLVES::Bool, RECORD_ITTR::Bool, RECORD_TIMINGS::Bool, PRINT_ITTERATIONS::Bool, 
-                         USE_CONVERGENCE::Bool, USE_COLUMN_AGE::Bool, AMOUNT_TO_FIX::Int64)
+                         USE_CONVERGENCE::Bool, USE_COLUMN_AGE::Bool, MAX_COLUMN_AGE::Int64, AMOUNT_TO_FIX::Int64)
 
   HEADERS::Vector{String} = ["period", "silo1", "slack_silo1", "machine1a","machine1b","machine1c","machine1d", "silo2", 
                                     "slack_silo2", "cleaner1", "slack_cleaner1", "machine2", "silo3", "slack_silo3","machine3a",
@@ -67,7 +67,7 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
           break
         end
 
-        𝓜, x, dicts = update_model(𝓓, 𝓜, x, dicts, i, USE_COLUMN_AGE)
+        𝓜, x, dicts = update_model(𝓓, 𝓜, x, dicts, i, USE_COLUMN_AGE, MAX_COLUMN_AGE)
         optimize!(𝓜)
       end
 

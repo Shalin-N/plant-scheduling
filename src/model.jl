@@ -102,15 +102,14 @@ end
       x: binary variables
       dicts: dictionaries of model information
 """
-function update_model(𝓓::Data, 𝓜::Model, x, dicts::Dictionaries, ittr::Int64 = 999, use_column_age = false)
+function update_model(𝓓::Data, 𝓜::Model, x, dicts::Dictionaries, ittr::Int64 = 999, use_column_age::Bool = false, MAX_COLUMN_AGE::Int64 = 999)
   for m in 𝓓.machines
     if dicts.num_schedules_start[m.name] != dicts.num_schedules_end[m.name] # don't added schedules if this machine is already optimal
 
       if use_column_age
-        max_age::Int64 = 4
 
         for schedule_ref in 1:dicts.num_schedules_start[m.name]-1
-            if ittr - dicts.schedules_age[m.name, schedule_ref] > max_age && is_valid(𝓜, x[m.name][schedule_ref])
+            if ittr - dicts.schedules_age[m.name, schedule_ref] > MAX_COLUMN_AGE && is_valid(𝓜, x[m.name][schedule_ref])
               fix(x[m.name][schedule_ref], 0)
             end
         end
