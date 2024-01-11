@@ -13,8 +13,6 @@ function import_data(file_path, periods, period_increment)
                           resource_data[resource_name]["min_capacity"],
                           resource_data[resource_name]["max_capacity"],
                           resource_data[resource_name]["initial_volume"],
-                          resource_data[resource_name]["rates"],
-                          resource_data[resource_name]["flows"],
                           resource_data[resource_name]["type"])
                  for resource_name in keys(resource_data)]
 
@@ -25,9 +23,10 @@ function import_data(file_path, periods, period_increment)
                         machine_data[machine_name]["cleaning_time"],
                         machine_data[machine_name]["min_off_time"],
                         machine_data[machine_name]["max_off_time"],
-                        machine_data[machine_name]["rates"],
-                        machine_data[machine_name]["flows"],
-                        get(machine_data[machine_name], "cleaning_group", "NA"))
+                        machine_data[machine_name]["resource_flows"],
+                        machine_data[machine_name]["resource_rates"],
+                        machine_data[machine_name]["cleaning_group"],
+                        machine_data[machine_name]["cleaning_rate"])          
                 for machine_name in keys(machine_data)]
 
     states = [State2(current_state,

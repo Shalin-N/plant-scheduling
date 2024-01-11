@@ -3,32 +3,24 @@
     "min_capacity": 0,
     "max_capacity": 1000,
     "initial_volume": 900,
-    "rates": [],
-    "type": "storage",
-    "flows": ["machine1"]
+    "type": "storage"
   },
   "silo2": {
     "min_capacity": 0,
     "max_capacity": 500,
     "initial_volume": 200,
-    "rates": [],
-    "type": "storage",
-    "flows": ["machine1", "machine2"]
+    "type": "storage"
   },
   "silo3": {
     "min_capacity": 0,
     "max_capacity": 600,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": ["machine2"]
+    "type": "storage"
   },
   "cleaner1": {
     "min_capacity": 0,
     "max_capacity": 1,
     "initial_volume": 1,
-    "rates": [-1, -1],
-    "type": "renewable",
-    "flows": ["machine1", "machine2"]
+    "type": "renewable"
   }
 }

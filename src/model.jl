@@ -53,13 +53,12 @@ function build_model(𝓓::Data, schedules_dict::Dict{Tuple{String, Int64}, Vect
         machine_activity::String = find_machine_activity(schedules_dict[m.name, 1], p)
         index::Int64 = 0
               
-        if r.name in m.flows && machine_activity == "on"
-          index = findfirst(name -> name == r.name, m.flows)
-          add_to_expression!(rate_expression, m.rates[index]*𝓓.period_increment, x[m.name][1])
+        if r.name in m.resource_flows && machine_activity == "on"
+          index = findfirst(name -> name == r.name, m.resource_flows)
+          add_to_expression!(rate_expression, m.resource_rates[index]*𝓓.period_increment, x[m.name][1])
 
         elseif  r.name == m.cleaning_group && machine_activity == "cleaning"
-          index = findfirst(name -> name == m.name, r.flows)
-          add_to_expression!(rate_expression, r.rates[index], x[m.name][1])
+          add_to_expression!(rate_expression, m.cleaning_rate, x[m.name][1])
         end
       end
 
@@ -127,13 +126,12 @@ function update_model(𝓓::Data, 𝓜::Model, x, dicts::Dictionaries, ittr::Int
           machine_activity::String = find_machine_activity(dicts.schedules[m.name, schedule_ref], p)
           index::Int64 = 0
                   
-          if r.name in m.flows && machine_activity == "on"
-            index = findfirst(name -> name == r.name, m.flows)
-            set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.rates[index]*𝓓.period_increment)
+          if r.name in m.resource_flows && machine_activity == "on"
+            index = findfirst(name -> name == r.name, m.resource_flows)
+            set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.resource_rates[index]*𝓓.period_increment)
 
           elseif  r.name == m.cleaning_group && machine_activity == "cleaning"
-            index = findfirst(name -> name == m.name, r.flows)
-            set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -r.rates[index])
+            set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.cleaning_rate)
           end
         end
       end

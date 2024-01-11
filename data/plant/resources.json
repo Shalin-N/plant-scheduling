@@ -3,96 +3,72 @@
     "min_capacity": 0,
     "max_capacity": 999999,
     "initial_volume": 500,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo2": {
     "min_capacity": 0,
     "max_capacity": 1000,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo3": {
     "min_capacity": 0,
     "max_capacity": 1000,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo4": {
     "min_capacity": 0,
     "max_capacity": 1000,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo5": {
     "min_capacity": 0,
     "max_capacity": 999999,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo6": {
     "min_capacity": 0,
     "max_capacity": 1000,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo7": {
     "min_capacity": 0,
     "max_capacity": 1000,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "silo8": {
     "min_capacity": 0,
     "max_capacity": 999999,
     "initial_volume": 300,
-    "rates": [],
-    "type": "storage",
-    "flows": []
+    "type": "storage"
   },
   "cleaner1": {
     "min_capacity": 0,
     "max_capacity": 2,
     "initial_volume": 1,
-    "rates": [-1, -1, -1, -1],
-    "type": "renewable",
-    "flows": ["machine1a", "machine1b","machine1c","machine1d"]
+    "type": "renewable"
   },
   "cleaner2": {
     "min_capacity": 0,
     "max_capacity": 1,
     "initial_volume": 1,
-    "rates": [-1, -1, -1],
-    "type": "renewable",
-    "flows": ["machine2", "machine3a", "machine3b"]
+    "type": "renewable"
   },
   "cleaner3": {
     "min_capacity": 0,
     "max_capacity": 1,
     "initial_volume": 1,
-    "rates": [-1, -1, -1],
-    "type": "renewable",
-    "flows": ["machine4a", "machine4b", "machine5"]
+    "type": "renewable"
   },
   "cleaner4": {
     "min_capacity": 0,
     "max_capacity": 1,
     "initial_volume": 1,
-    "rates": [-1, -1],
-    "type": "renewable",
-    "flows": ["machine6", "machine7"]
+    "type": "renewable"
   }
 }

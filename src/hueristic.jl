@@ -26,7 +26,7 @@ function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, 
     for p in 1:𝓓.periods
       state::State, state_i::Int64 = find_machine_state(dicts.schedules[m.name, schedule_ref], p)
       conflict::Float64 = value(slack[p, renewable_resource_ref])
-      overflow::Float64 = sum(value(slack[p, storage]) for storage in m.flows)
+      overflow::Float64 = sum(value(slack[p, storage]) for storage in m.resource_flows)
 
       # Cleaning Conflict
       if state.name == "cleaning" && conflict != 0 && renewable
@@ -83,7 +83,7 @@ function improve_schedules_hueristic_steepest(𝓓::Data, dicts::Dictionaries, s
     for p in 1:𝓓.periods
       state::State, state_i::Int64 = find_machine_state(dicts.schedules[m.name, schedule_ref], p)
       conflict::Float64 = value(slack[p, renewable_resource_ref])
-      overflow::Float64 = sum(value(slack[p, storage]) for storage in m.flows)
+      overflow::Float64 = sum(value(slack[p, storage]) for storage in m.resource_flows)
 
       if conflict > max_conflict
         max_conflict = conflict

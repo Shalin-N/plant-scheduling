@@ -5,8 +5,6 @@ mutable struct Resource
   min_capacity::Int
   max_capacity::Int
   initial_volume::Float64
-  rates::Vector{Any}
-  flows::Vector{Any}
   type::String
 end
 
@@ -18,9 +16,10 @@ mutable struct Machine
   cleaning_time::Int
   min_off_time::Int
   max_off_time::Int
-  rates::Vector{Any}
-  flows::Vector{Any}
+  resource_flows::Vector{Any}
+  resource_rates::Vector{Any}
   cleaning_group::String
+  cleaning_rate::Int
 end
 
 struct State2

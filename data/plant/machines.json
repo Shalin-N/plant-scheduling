@@ -6,9 +6,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-51, 42.5],
-    "flows": ["silo1", "silo2"],
-    "cleaning_group": "cleaner1"
+    "resource_flows": ["silo1", "silo2"],
+    "resource_rates": [-51, 42.5],
+    "cleaning_group": "cleaner1",
+    "cleaning_rate": -1
   },
   "machine1b": {
     "initial_state": "on",
@@ -17,9 +18,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-51, 42.5],
-    "flows": ["silo1", "silo2"],
-    "cleaning_group": "cleaner1"
+    "resource_flows": ["silo1", "silo2"],
+    "resource_rates": [-51, 42.5],
+    "cleaning_group": "cleaner1",
+    "cleaning_rate": -1
   },
   "machine1c": {
     "initial_state": "on",
@@ -28,9 +30,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-51, 42.5],
-    "flows": ["silo1", "silo2"],
-    "cleaning_group": "cleaner1"
+    "resource_flows": ["silo1", "silo2"],
+    "resource_rates": [-51, 42.5],
+    "cleaning_group": "cleaner1",
+    "cleaning_rate": -1
   },
   "machine1d": {
     "initial_state": "cleaning",
@@ -39,9 +42,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-51, 42.5],
-    "flows": ["silo1", "silo2"],
-    "cleaning_group": "cleaner1"
+    "resource_flows": ["silo1", "silo2"],
+    "resource_rates": [-51, 42.5],
+    "cleaning_group": "cleaner1",
+    "cleaning_rate": -1
   },
   "machine2": {
     "initial_state": "on",
@@ -50,9 +54,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 4,
-    "rates": [-133.5, 45],
-    "flows": ["silo2", "silo3"], 
-    "cleaning_group": "cleaner2"
+    "resource_flows": ["silo2", "silo3"],
+    "resource_rates": [-133.5, 45],
+    "cleaning_group": "cleaner2",
+    "cleaning_rate": -1
   },
   "machine3a": {
     "initial_state": "on",
@@ -61,9 +66,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 2,
-    "rates": [-45, 60],
-    "flows": ["silo3", "silo4"], 
-    "cleaning_group": "cleaner2"
+    "resource_flows": ["silo3", "silo4"], 
+    "resource_rates": [-45, 60],
+    "cleaning_group": "cleaner2",
+    "cleaning_rate": -1
   },
   "machine3b": {
     "initial_state": "on",
@@ -72,9 +78,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 2,
-    "rates": [-45, 60],
-    "flows": ["silo3", "silo4"], 
-    "cleaning_group": "cleaner2"
+    "resource_flows": ["silo3", "silo4"],
+    "resource_rates": [-45, 60],
+    "cleaning_group": "cleaner2",
+    "cleaning_rate": -1
   },
   "machine4a": {
     "initial_state": "on",
@@ -83,9 +90,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 4,
-    "rates": [-30, 15],
-    "flows": ["silo4", "silo5"], 
-    "cleaning_group": "cleaner3"
+    "resource_flows": ["silo4", "silo5"], 
+    "resource_rates": [-30, 15],
+    "cleaning_group": "cleaner3",
+    "cleaning_rate": -1
   },
   "machine4b": {
     "initial_state": "on",
@@ -94,9 +102,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 4,
-    "rates": [-30, 15],
-    "flows": ["silo4", "silo5"], 
-    "cleaning_group": "cleaner3"
+    "resource_flows": ["silo4", "silo5"],
+    "resource_rates": [-30, 15],
+    "cleaning_group": "cleaner3",
+    "cleaning_rate": -1
   },
   "machine5": {
     "initial_state": "on",
@@ -105,9 +114,10 @@
     "cleaning_time": 2,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-30, 30],
-    "flows": ["silo5", "silo6"], 
-    "cleaning_group": "cleaner3"
+    "resource_flows": ["silo5", "silo6"], 
+    "resource_rates": [-30, 30],
+    "cleaning_group": "cleaner3",
+    "cleaning_rate": -1
   },
   "machine6": {
     "initial_state": "off",
@@ -116,9 +126,10 @@
     "cleaning_time": 2,
     "min_off_time": 0,
     "max_off_time": 6,
-    "rates": [-30, 30],
-    "flows": ["silo6", "silo7"], 
-    "cleaning_group": "cleaner4"
+    "resource_flows": ["silo6", "silo7"], 
+    "resource_rates": [-30, 30],
+    "cleaning_group": "cleaner4",
+    "cleaning_rate": -1
   },
   "machine7": {
     "initial_state": "off",
@@ -127,9 +138,10 @@
     "cleaning_time": 2,
     "min_off_time": 0,
     "max_off_time": 6,
-    "rates": [-20, 20],
-    "flows": ["silo7", "silo8"], 
-    "cleaning_group": "cleaner4"
+    "resource_flows": ["silo7", "silo8"],
+    "resource_rates": [-20, 20],
+    "cleaning_group": "cleaner4",
+    "cleaning_rate": -1
   }
 }
  

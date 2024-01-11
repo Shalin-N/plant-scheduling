@@ -6,9 +6,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-5, 10],
-    "flows": ["silo1", "silo2"],
-    "cleaning_group": "cleaner1"
+    "resource_flows": ["silo1", "silo2"],
+    "resource_rates": [-5, 10],
+    "cleaning_group": "cleaner1",
+    "cleaning_rate": -1
   },
   "machine2": {
     "initial_state": "on",
@@ -17,9 +18,10 @@
     "cleaning_time": 3,
     "min_off_time": 0,
     "max_off_time": 3,
-    "rates": [-10, 20],
-    "flows": ["silo2", "silo3"], 
-    "cleaning_group": "cleaner1"
+    "resource_flows": ["silo2", "silo3"], 
+    "resource_rates": [-10, 20],
+    "cleaning_group": "cleaner1",
+    "cleaning_rate": -1
   }
 }
  
