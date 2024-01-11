@@ -14,6 +14,5 @@ const PRINT_ITTERATIONS::Bool = true
 const USE_CONVERGENCE::Bool = true
 const USE_COLUMN_AGE = true
 const AMOUNT_TO_FIX = 1  # amount of infeasible states to fix per itteration of the hueristic
-const VISUALISE::Bool = false # output code in a special format for visualisation, note this should be disabled for normal use, and if run the RECORD bools should be set to false
 
-run_model(DATA_PATH, MAX_ITER, MAX_TIME, TOL, SOLVES, SOLVE_PERIOD, LOCK_PERIOD, PERIOD_INCREMENT, RECORD_SOLVES, RECORD_ITTR, RECORD_TIMINGS, PRINT_ITTERATIONS, USE_CONVERGENCE, USE_COLUMN_AGE, AMOUNT_TO_FIX, VISUALISE)
+run_model(DATA_PATH, MAX_ITER, MAX_TIME, TOL, SOLVES, SOLVE_PERIOD, LOCK_PERIOD, PERIOD_INCREMENT, RECORD_SOLVES, RECORD_ITTR, RECORD_TIMINGS, PRINT_ITTERATIONS, USE_CONVERGENCE, USE_COLUMN_AGE, AMOUNT_TO_FIX)

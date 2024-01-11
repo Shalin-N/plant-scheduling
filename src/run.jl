@@ -9,7 +9,7 @@ include("rolling_horizon.jl")
 function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
                          SOLVES::Int64, SOLVE_PERIOD::Int64, LOCK_PERIOD::Int64, PERIOD_INCREMENT::Float64,
                          RECORD_SOLVES::Bool, RECORD_ITTR::Bool, RECORD_TIMINGS::Bool, PRINT_ITTERATIONS::Bool, 
-                         USE_CONVERGENCE::Bool, USE_COLUMN_AGE::Bool, AMOUNT_TO_FIX::Int64, VISUALISE::Bool)
+                         USE_CONVERGENCE::Bool, USE_COLUMN_AGE::Bool, AMOUNT_TO_FIX::Int64)
 
   HEADERS::Vector{String} = ["period", "silo1", "slack_silo1", "machine1a","machine1b","machine1c","machine1d", "silo2", 
                                     "slack_silo2", "cleaner1", "slack_cleaner1", "machine2", "silo3", "slack_silo3","machine3a",
@@ -25,16 +25,8 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
   solve_ittr::Int64 = 1
   machine_params = true # type of params changes in the future so no static typing
 
-  if RECORD_TIMINGS || RECORD_ITTR || RECORD_SOLVES || VISUALISE
+  if RECORD_TIMINGS || RECORD_ITTR || RECORD_SOLVES
     mkdir(PATH)
-
-    if VISUALISE
-      mkdir(joinpath(PATH, "Optimal"))
-  
-      for k = 1:SOLVES
-        mkdir(joinpath(PATH,"Solve"*"$k"))
-      end
-    end
   end
 
   total_slack_value::Float64 = 0
@@ -62,10 +54,6 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
     elseif RECORD_ITTR
       add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-1")
     end
-
-    if VISUALISE
-      write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Solve"*"$solve_ittr" ,"iter1.xlsx"), "output")
-    end
     
     i += 1
 
@@ -86,7 +74,6 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
       obj = objective_value(𝓜)
       PRINT_ITTERATIONS ? println("Iteration: ", i, "    obj: ", obj) : nothing
       RECORD_ITTR ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-"*"$i") : nothing
-      VISUALISE ? write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Solve"*"$solve_ittr" ,"iter"*"$i"*".xlsx"), "output") : nothing
       i += 1
       push!(elapsed_times, elapsed_time)
     end
@@ -107,10 +94,6 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
     else
       RECORD_TIMINGS ? add_sheet(DataFrame(iteration=1:length(elapsed_times)-1, elapsed_time=elapsed_times[1:end-1]), joinpath(PATH,"Timings.xlsx"), "Solve"*"$solve_ittr") : nothing
       RECORD_SOLVES ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
-    end
-
-    if VISUALISE
-      write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Optimal","solve"*"$solve_ittr"*".xlsx"), "output")
     end
 
     # update for next itteration
