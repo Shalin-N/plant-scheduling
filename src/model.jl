@@ -1,6 +1,8 @@
 using JuMP, HiGHS
 include("structures.jl")
 
+
+
 """
     builds a model based on 1 set of schedules and problem data
 

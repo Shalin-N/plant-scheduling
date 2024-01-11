@@ -19,7 +19,6 @@ include("structures.jl")
       data frame with results
 """
 function format_output(𝓓::Data, 𝓜, resource_values, slack, x, dicts::Dictionaries, HEADERS::Vector{String})
-  # creating empty data frame to add results to 
   df = create_df(HEADERS, 𝓓.periods+1)
 
   # adding time periods 
@@ -149,4 +148,3 @@ function convert_to_tp_sequence(periods, stateSequence)
   end
   return schedule
 end
-

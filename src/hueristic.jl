@@ -1,5 +1,7 @@
 include("structures.jl")
 
+
+
 """
     generate_schedules_using_next_decent(𝓓, schedules, ittr, slack, x)
 
@@ -54,7 +56,7 @@ function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, 
         break_condition += 1
       end
 
-      if break_condition >= AMOUNT_TO_FIX # doesn't handle 2 cleaning conflicts being fixed before a silo overflow is reached
+      if break_condition >= AMOUNT_TO_FIX
         break
       end
     end
@@ -162,6 +164,7 @@ function find_machine_state(schedule::Vector{State}, p::Int64)
     (time_period += s.duration) >= p && return s, index
   end
 end
+
 
 
 """

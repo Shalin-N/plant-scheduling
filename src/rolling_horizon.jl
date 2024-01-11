@@ -55,6 +55,8 @@ function update_machine_params(𝓓, LOCK_PERIOD, dicts, x)
   return 𝓓
 end
 
+
+
 """
   update the resource parameters for the next solve window in rolling horizon
 

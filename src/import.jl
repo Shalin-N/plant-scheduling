@@ -1,6 +1,8 @@
 using JSON
 include("structures.jl")
 
+
+
 function import_data(file_path, periods, period_increment)
     resource_data = JSON.parsefile(joinpath(file_path, "resources.json"))
     machine_data = JSON.parsefile(joinpath(file_path, "machines.json"))

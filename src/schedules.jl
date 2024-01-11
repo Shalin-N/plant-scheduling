@@ -1,5 +1,7 @@
 include("structures.jl")
 
+
+
 """
     generate a random schedule for each machine in the data structure 𝓓
     and store it in the dictionary schedules_dict
