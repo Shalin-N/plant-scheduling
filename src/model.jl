@@ -1,4 +1,4 @@
-using JuMP, Gurobi
+using JuMP, HiGHS
 include("structures.jl")
 
 """
@@ -17,7 +17,7 @@ include("structures.jl")
 """
 function build_model(𝓓::Data, schedules_dict::Dict{Tuple{String, Int64}, Vector{State}})
   dicts::Dictionaries = Dictionaries(schedules_dict)
-  𝓜::Model = direct_model(Gurobi.Optimizer())
+  𝓜::Model = direct_model(HiGHS.Optimizer())
   set_attribute(𝓜, "output_flag", false)
 
   ### Variables
