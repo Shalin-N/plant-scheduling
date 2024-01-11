@@ -105,34 +105,34 @@ end
 """
 function update_model(𝓓::Data, 𝓜::Model, x, dicts::Dictionaries, ittr::Int64 = 999, use_column_age::Bool = false, MAX_COLUMN_AGE::Int64 = 999)
   for m in 𝓓.machines
-    if dicts.num_schedules_start[m.name] != dicts.num_schedules_end[m.name] # don't added schedules if this machine is already optimal
+    # don't add schedules if this machine is already optimal
+    if dicts.num_schedules_start[m.name] == dicts.num_schedules_end[m.name]; continue end
 
-      if use_column_age
+    if use_column_age
 
-        for schedule_ref in 1:dicts.num_schedules_start[m.name]-1
-            if ittr - dicts.schedules_age[m.name, schedule_ref] > MAX_COLUMN_AGE && is_valid(𝓜, x[m.name][schedule_ref])
-              fix(x[m.name][schedule_ref], 0)
-            end
-        end
-      end
-
-      for schedule_ref in dicts.num_schedules_start[m.name]:dicts.num_schedules_end[m.name]
-        dicts.schedules_age[m.name, schedule_ref] = ittr
-        push!(x[m.name], @variable(𝓜, [[schedule_ref]], binary = true, base_name = "$(m.name)")[schedule_ref]) # Add new binary variables
-        set_objective_coefficient(𝓜, x[m.name][schedule_ref], schedule_quality(dicts.schedules[m.name, schedule_ref])) # set schedule quality of binary variables
-        set_normalized_coefficient(dicts.GUB[m.name], x[m.name][schedule_ref], 1) # update GUB constraint for new binary variables
-
-        for p in 1:𝓓.periods, r in 𝓓.resources
-          machine_activity::String = find_machine_activity(dicts.schedules[m.name, schedule_ref], p)
-          index::Int64 = 0
-                  
-          if r.name in m.resource_flows && machine_activity == "on"
-            index = findfirst(name -> name == r.name, m.resource_flows)
-            set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.resource_rates[index]*𝓓.period_increment)
-
-          elseif  r.name == m.cleaning_group && machine_activity == "cleaning"
-            set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.cleaning_rate)
+      for schedule_ref in 1:dicts.num_schedules_start[m.name]-1
+          if ittr - dicts.schedules_age[m.name, schedule_ref] > MAX_COLUMN_AGE && is_valid(𝓜, x[m.name][schedule_ref])
+            fix(x[m.name][schedule_ref], 0)
           end
+      end
+    end
+
+    for schedule_ref in dicts.num_schedules_start[m.name]:dicts.num_schedules_end[m.name]
+      dicts.schedules_age[m.name, schedule_ref] = ittr
+      push!(x[m.name], @variable(𝓜, [[schedule_ref]], binary = true, base_name = "$(m.name)")[schedule_ref]) # Add new binary variables
+      set_objective_coefficient(𝓜, x[m.name][schedule_ref], schedule_quality(dicts.schedules[m.name, schedule_ref])) # set schedule quality of binary variables
+      set_normalized_coefficient(dicts.GUB[m.name], x[m.name][schedule_ref], 1) # update GUB constraint for new binary variables
+
+      for p in 1:𝓓.periods, r in 𝓓.resources
+        machine_activity::String = find_machine_activity(dicts.schedules[m.name, schedule_ref], p)
+        index::Int64 = 0
+                
+        if r.name in m.resource_flows && machine_activity == "on"
+          index = findfirst(name -> name == r.name, m.resource_flows)
+          set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.resource_rates[index]*𝓓.period_increment)
+
+        elseif  r.name == m.cleaning_group && machine_activity == "cleaning"
+          set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.cleaning_rate)
         end
       end
     end
