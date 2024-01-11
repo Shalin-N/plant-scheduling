@@ -20,7 +20,7 @@ function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, 
   for m in 𝓓.machines
     break_condition::Int64 = 0
     schedule_ref::Int64 = find_current_optimal_schedule(x, m.name)
-    renewable_resource_ref::String = m.cleaner_key
+    renewable_resource_ref::String = m.cleaning_group
     num_states::Int64 = size(dicts.schedules[m.name, schedule_ref])[1]
 
     for p in 1:𝓓.periods
@@ -72,7 +72,7 @@ function improve_schedules_hueristic_steepest(𝓓::Data, dicts::Dictionaries, s
 
   for m in 𝓓.machines
     schedule_ref::Int64 = find_current_optimal_schedule(x, m.name)
-    renewable_resource_ref::String = m.cleaner_key
+    renewable_resource_ref::String = m.cleaning_group
     num_states::Int64 = size(dicts.schedules[m.name, schedule_ref])[1]
 
     # Find period with highest conflict and overflow

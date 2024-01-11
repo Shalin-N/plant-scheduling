@@ -20,7 +20,7 @@ mutable struct Machine
   max_off_time::Int
   rates::Vector{Any}
   flows::Vector{Any}
-  cleaner_key::String
+  cleaning_group::String
 end
 
 struct State2

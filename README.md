@@ -53,7 +53,7 @@ For Machines the JSON is formatted
     "max_off_time": 3, (in time points)
     "rates": [-51, 42.5], (rate applied to each silo contained in flows)
     "flows": ["silo1", "silo2"] (which silos this machine interacts with),
-    "cleaner_key": "cleaner1" (which cleaner subgroup this machine belongs to)
+    "cleaning_group": "cleaner1" (which cleaner subgroup this machine belongs to)
   }
 }
 ```

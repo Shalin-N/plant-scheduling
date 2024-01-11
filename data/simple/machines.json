@@ -8,7 +8,7 @@
     "max_off_time": 3,
     "rates": [-5, 10],
     "flows": ["silo1", "silo2"],
-    "cleaner_key": "cleaner1"
+    "cleaning_group": "cleaner1"
   },
   "machine2": {
     "initial_state": "on",
@@ -19,7 +19,7 @@
     "max_off_time": 3,
     "rates": [-10, 20],
     "flows": ["silo2", "silo3"], 
-    "cleaner_key": "cleaner1"
+    "cleaning_group": "cleaner1"
   }
 }
  

@@ -57,7 +57,7 @@ function build_model(𝓓::Data, schedules_dict::Dict{Tuple{String, Int64}, Vect
           index = findfirst(name -> name == r.name, m.flows)
           add_to_expression!(rate_expression, m.rates[index]*𝓓.period_increment, x[m.name][1])
 
-        elseif  r.name == m.cleaner_key && machine_activity == "cleaning"
+        elseif  r.name == m.cleaning_group && machine_activity == "cleaning"
           index = findfirst(name -> name == m.name, r.flows)
           add_to_expression!(rate_expression, r.rates[index], x[m.name][1])
         end
@@ -131,7 +131,7 @@ function update_model(𝓓::Data, 𝓜::Model, x, dicts::Dictionaries, ittr::Int
             index = findfirst(name -> name == r.name, m.flows)
             set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -m.rates[index]*𝓓.period_increment)
 
-          elseif  r.name == m.cleaner_key && machine_activity == "cleaning"
+          elseif  r.name == m.cleaning_group && machine_activity == "cleaning"
             index = findfirst(name -> name == m.name, r.flows)
             set_normalized_coefficient(dicts.resource_volume_con[p, r.name], x[m.name][schedule_ref], -r.rates[index])
           end

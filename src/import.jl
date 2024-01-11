@@ -27,7 +27,7 @@ function import_data(file_path, periods, period_increment)
                         machine_data[machine_name]["max_off_time"],
                         machine_data[machine_name]["rates"],
                         machine_data[machine_name]["flows"],
-                        get(machine_data[machine_name], "cleaner_key", "NA"))
+                        get(machine_data[machine_name], "cleaning_group", "NA"))
                 for machine_name in keys(machine_data)]
 
     states = [State2(current_state,
