@@ -17,8 +17,8 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
                                     "silo5", "slack_silo5", "machine5", "silo6", "cleaner3", "slack_cleaner3", "slack_silo6",
                                     "machine6","silo7", "slack_silo7", "machine7", "silo8", "slack_silo8", "cleaner4", "slack_cleaner4"]
 
-  TIMESTAMP::String = Dates.format(now(), "ddd_HH-MM")
-  FOLDER::String = "$SOLVES-"*"$SOLVE_PERIOD-"*"$LOCK_PERIOD-"*"$PERIOD_INCREMENT-"*"$USE_CONVERGENCE-"*"$USE_COLUMN_AGE-"*"$TIMESTAMP"
+  TIMESTAMP::String = Dates.format(now(), "dd-mm-yyyy HH:MM")
+  FOLDER::String = "$TIMESTAMP"
   PATH::String = joinpath(pwd(), FOLDER)
   
   𝓓::Data = import_data(DATA_PATH, SOLVE_PERIOD, PERIOD_INCREMENT)
