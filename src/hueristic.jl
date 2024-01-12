@@ -30,7 +30,7 @@ function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, 
 
       # Cleaning Conflict
       if state.name == "cleaning" && conflict != 0 && renewable
-        if 2 <= state_i && state_i <= num_states-2
+        if 2 < state_i && state_i <= num_states-2
           columns_added = true
           break_condition += 1
           for time_shift::Int64 in 1:m.cleaning_time
@@ -190,6 +190,11 @@ end
 
 """
 function generate_new_cleaning_schedules(schedules::Dict{Tuple{String, Int64}, Vector{State}}, num_schedules::Dict{String, Int64}, m, schedule_ref::Int64, state_i::Int64, time_shift::Int64, state_shift_minus::Int64=2, state_shift_plus::Int64=2)
+  if state_i == state_shift_minus
+    println(state_i)
+    println(state_shift_minus)
+  end
+  
   num_schedules[m.name] += 1
   schedules[m.name, num_schedules[m.name]] = deepcopy(schedules[m.name, schedule_ref]) 
   schedules[m.name, num_schedules[m.name]][state_i - state_shift_minus].duration += time_shift
