@@ -18,25 +18,25 @@ include("structures.jl")
     Outputs:
       data frame with results
 """
-function format_output(𝓓::Data, 𝓜, resource_values, slack, x, dicts::Dictionaries, HEADERS::Vector{String}, starting_period=0)
+function format_output(𝓓::Data, 𝓜, resource_values, slack, x, dicts::Dictionaries, HEADERS::Vector{String}, starting_period, ending_period)
   df = create_df(HEADERS, 𝓓.periods+1)
 
   # adding time periods 
-  df[!, Symbol(HEADERS[1])] = [starting_period:starting_period+𝓓.periods...]
+  df[!, Symbol(HEADERS[1])] = [starting_period-1:ending_period...]
 
   # add machine schedules to dataframe
   for m in 𝓓.machines
-      activities = convert_to_tp_sequence(𝓓.periods, dicts.schedules[m.name, selected_schedule(x, m.name)])
-      df[!, Symbol(m.name)] = vcat([""], activities[1:end])
+    activities = convert_to_tp_sequence(𝓓.periods, dicts.schedules[m.name, selected_schedule(x, m.name)])
+    df[!, Symbol(m.name)] = vcat([""], activities[begin:end])
   end
 
   # add resource values and their slacks to dataframe
   for r in 𝓓.resources
-    values = value.(resource_values[:, r.name])
-    df[!, Symbol(r.name)] = vcat(r.initial_volume, values[1:end])
+    values = Array(value.(resource_values[:, r.name]))
+    df[!, Symbol(r.name)] = values
 
-    values = value.(slack[:, r.name])
-    df[!, Symbol("slack_" * r.name)] = vcat([""], values[1:end])
+    values = Array(value.(slack[:, r.name]))
+    df[!, Symbol("slack_" * r.name)] = vcat([""], values)
   end
 
   return df

@@ -19,7 +19,7 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
                                     "silo5", "slack_silo5", "machine5", "silo6", "cleaner3", "slack_cleaner3", "slack_silo6",
                                     "machine6","silo7", "slack_silo7", "machine7", "silo8", "slack_silo8", "cleaner4", "slack_cleaner4"]
 
-  TIMESTAMP::String = Dates.format(now(), "dd-mm-yyyy HH:MM")
+  TIMESTAMP::String = Dates.format(now(), "dd-mm-yyyy HH:MM:sss")
   FOLDER::String = "$TIMESTAMP"
   PATH::String = joinpath(pwd(), FOLDER)
   
@@ -39,10 +39,12 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
 
   while solve_ittr <= SOLVES
     i::Int64 = 1
+    starting_period = 1 + (solve_ittr-1)*LOCK_PERIOD
+    ending_period = starting_period + SOLVE_PERIOD -1
 
     first_time::Float64 = @elapsed begin
       schedules_dict::Dict{Tuple{String, Int64}, Vector{State}} = build_schedules(𝓓, Dict{Tuple{String, Int64}, Vector{State}}(), i, machine_params)
-      𝓜::Model, x, resource_volume, slack, renewable_slack, storage_slack, dicts::Dictionaries = build_model(𝓓, schedules_dict)
+      𝓜::Model, x, resource_volume, slack, renewable_slack, storage_slack, dicts::Dictionaries = build_model(𝓓, schedules_dict, starting_period, ending_period)
       optimize!(𝓜)
     end
 
@@ -52,9 +54,9 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
     PRINT_ITTERATIONS ? println("Iteration: ", i, "    obj: ", obj) : nothing
 
     if solve_ittr == 1 && RECORD_ITTR
-      write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-1")
+      write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, starting_period, ending_period), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-1")
     elseif RECORD_ITTR
-      add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-1")
+      add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, starting_period, ending_period), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-1")
     end
     
     i += 1
@@ -63,26 +65,26 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
       old_obj = obj
 
       elapsed_time = @elapsed begin
-        dicts, columns_added = improve_schedules_hueristic(𝓓, dicts, slack, x, AMOUNT_TO_FIX)
+        dicts, columns_added = improve_schedules_hueristic(𝓓, dicts, slack, x, starting_period, ending_period, AMOUNT_TO_FIX)
 
         if !columns_added
           break
         end
 
-        𝓜, x, dicts = update_model(𝓓, 𝓜, x, dicts, i, USE_COLUMN_AGE, MAX_COLUMN_AGE)
+        𝓜, x, dicts = update_model(𝓓, 𝓜, x, dicts, i, starting_period, ending_period, USE_COLUMN_AGE, MAX_COLUMN_AGE)
         optimize!(𝓜)
       end
 
       obj = objective_value(𝓜)
       PRINT_ITTERATIONS ? println("Iteration: ", i, "    obj: ", obj) : nothing
-      RECORD_ITTR ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-"*"$i") : nothing
+      RECORD_ITTR ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, starting_period, ending_period), joinpath(PATH,"Itterations.xlsx"), "Solve"*"$solve_ittr"*"-"*"$i") : nothing
       i += 1
       push!(elapsed_times, elapsed_time)
     end
     i -= 1
 
     schedules_count = sum(size(x[m.name])[1] for m in 𝓓.machines)
-    total_slack_value += sum(value(slack[p, r.name]) for r in 𝓓.resources for p in 1:LOCK_PERIOD)
+    total_slack_value += sum(value(slack[p, r.name]) for r in 𝓓.resources for p in starting_period:(LOCK_PERIOD*solve_ittr))
     total_schedules += schedules_count
     total_fixed_variables += length(resource_volume) + length(slack)*3
     total_elapsed_time += sum(elapsed_times)
@@ -92,10 +94,10 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
 
     if solve_ittr == 1
       RECORD_TIMINGS ? write_to_xlsx(DataFrame(iteration=1:length(elapsed_times)-1, elapsed_time=elapsed_times[1:end-1]), joinpath(PATH,"Timings.xlsx"), "Solve"*"$solve_ittr") : nothing
-      RECORD_SOLVES ? write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
+      RECORD_SOLVES ? write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, starting_period, ending_period), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
     else
       RECORD_TIMINGS ? add_sheet(DataFrame(iteration=1:length(elapsed_times)-1, elapsed_time=elapsed_times[1:end-1]), joinpath(PATH,"Timings.xlsx"), "Solve"*"$solve_ittr") : nothing
-      RECORD_SOLVES ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, (solve_ittr-1)*LOCK_PERIOD), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
+      RECORD_SOLVES ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, starting_period, ending_period), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
     end
 
     # update for next itteration

@@ -13,7 +13,7 @@ include("structures.jl")
     - x: the binary variables for each machine and schedule
 TBW
 """
-function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, AMOUNT_TO_FIX=1, renewable::Bool=true, storage::Bool=true)
+function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, starting_period::Int64, ending_period::Int64, AMOUNT_TO_FIX=1, renewable::Bool=true, storage::Bool=true)
   columns_added::Bool = false
   dicts.num_schedules_start::Dict{String, Int64} = deepcopy(dicts.num_schedules_end)
 
@@ -23,8 +23,8 @@ function improve_schedules_hueristic(𝓓::Data, dicts::Dictionaries, slack, x, 
     renewable_resource_ref::String = m.cleaning_group
     num_states::Int64 = size(dicts.schedules[m.name, schedule_ref])[1]
 
-    for p in 1:𝓓.periods
-      state::State, state_i::Int64 = find_machine_state(dicts.schedules[m.name, schedule_ref], p)
+    for p in starting_period:ending_period
+      state::State, state_i::Int64 = find_machine_state(dicts.schedules[m.name, schedule_ref], starting_period, p)
       conflict::Float64 = value(slack[p, renewable_resource_ref])
       overflow::Float64 = sum(value(slack[p, storage]) for storage in m.resource_flows)
 
@@ -66,71 +66,6 @@ end
 
 
 
-function improve_schedules_hueristic_steepest(𝓓::Data, dicts::Dictionaries, slack, x, renewable::Bool=true, storage::Bool=true)
-  dicts.num_schedules_start::Dict{String, Int64} = deepcopy(dicts.num_schedules_end)
-  columns_added::Bool = false
-
-  for m in 𝓓.machines
-    schedule_ref::Int64 = find_current_optimal_schedule(x, m.name)
-    renewable_resource_ref::String = m.cleaning_group
-    num_states::Int64 = size(dicts.schedules[m.name, schedule_ref])[1]
-
-    # Find period with highest conflict and overflow
-    max_conflict::Float64 = 0
-    max_overflow::Float64 = 0
-    conflict_period::Int64 = 0
-    overflow_period::Int64 = 0
-    for p in 1:𝓓.periods
-      state::State, state_i::Int64 = find_machine_state(dicts.schedules[m.name, schedule_ref], p)
-      conflict::Float64 = value(slack[p, renewable_resource_ref])
-      overflow::Float64 = sum(value(slack[p, storage]) for storage in m.resource_flows)
-
-      if conflict > max_conflict
-        max_conflict = conflict
-        conflict_period = p
-      end
-
-      if overflow > max_overflow && state.name == "on"
-        max_overflow = overflow
-        overflow_period = p
-      end
-    end
-
-    # Cleaning Conflict
-    state, state_i = find_machine_state(dicts.schedules[m.name, schedule_ref], conflict_period)
-    if state.name == "cleaning" && max_conflict != 0 && renewable
-      if 2 <= state_i && state_i <= num_states-2
-        columns_added = true
-        for time_shift::Int64 in 1:m.cleaning_time
-          dicts.schedules, dicts.num_schedules_end = generate_new_cleaning_schedules(dicts.schedules, dicts.num_schedules_end, m, schedule_ref, state_i, time_shift)
-          dicts.schedules, dicts.num_schedules_end = generate_new_cleaning_schedules(dicts.schedules, dicts.num_schedules_end, m, schedule_ref, state_i, -time_shift)
-        end
-        continue
-      elseif state_i == num_states-1 # handle cleaning at the last non off state
-        columns_added = true
-        for time_shift in 1:m.cleaning_time
-          dicts.schedules, dicts.num_schedules_end = generate_new_cleaning_schedules(dicts.schedules, dicts.num_schedules_end, m, schedule_ref, state_i, -time_shift, 2 , 1)
-        end
-        continue
-      end
-    end
-
-    # Silo Overflow
-    state, state_i = find_machine_state(dicts.schedules[m.name, schedule_ref], overflow_period)
-    if state.name == "on" && max_overflow != 0 && state_i <= num_states-1 && storage
-      columns_added = true
-      dicts.num_schedules_end[m.name] += 1
-      dicts.schedules[m.name, dicts.num_schedules_end[m.name]] = deepcopy(dicts.schedules[m.name, schedule_ref])
-      dicts.schedules[m.name, dicts.num_schedules_end[m.name]][state_i].duration -= 1
-      dicts.schedules[m.name, dicts.num_schedules_end[m.name]][state_i + 1].duration += 1
-      continue
-    end
-  end
-  return dicts, columns_added
-end
-
-
-
 """
     finds the indexes of the current most optimal schedule for a given machine 
 
@@ -158,8 +93,8 @@ end
     - the state that is active during period p
     - the index of the state that is active during period p
 """
-function find_machine_state(schedule::Vector{State}, p::Int64)
-  time_period::Int64 = 0
+function find_machine_state(schedule::Vector{State}, starting_period::Int64, p::Int64)
+  time_period::Int64 = starting_period
   for (index, s) in enumerate(schedule)
     (time_period += s.duration) >= p && return s, index
   end
