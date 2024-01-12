@@ -112,6 +112,8 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
   output_file = open(joinpath(PATH, "output.txt"), "w")
   write(output_file, "MAX TIME: $MAX_TIME\n")
   write(output_file, "MAX ITTR: $MAX_ITER\n")
+  write(output_file, "SOLVE PERIOD: $SOLVE_PERIOD\n")
+  write(output_file, "LOCK PERIOD: $LOCK_PERIOD\n")
   write(output_file, "total elapsed time: $total_elapsed_time\n")
   write(output_file, "total itterations: $total_itteations\n")
   write(output_file, "total slack value: $total_slack_value - 0 means feasible\n" )
