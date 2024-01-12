@@ -31,6 +31,7 @@ function import_data(file_path, periods, period_increment)
 
     states = [State2(current_state,
                 state_data["next_state"],
+                state_data["next_rolling_hoz_state"],
                 state_data["duration_type"],
                 get(state_data, "duration_key", "NA"),
                 get(state_data, "min_duration_key", "NA"),

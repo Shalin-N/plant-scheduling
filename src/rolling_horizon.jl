@@ -25,15 +25,9 @@ function update_machine_params(𝓓, LOCK_PERIOD, dicts, x)
       state_info = 𝓓.states[findfirst(x -> x.current_state == s.name, 𝓓.states)]
       max_duration = getproperty(m, Symbol(state_info.max_duration_key))
 
-      if state_info.current_state == "off"
-        initial_state = "on"
+      if s.duration == max_duration || state_info.current_state == "off" || state_info.current_state == "off-dirty"
+        initial_state = state_info.next_rolling_hoz_state
         initial_time = 0
-      elseif state_info.current_state == "off-dirty"
-        initial_state = "cleaning"
-        initial_time = 0
-      elseif s.duration == max_duration
-        initial_state = state_info.current_state == "cleaning" ? "on" : "cleaning"
-        initial_time = 0 
       else
         initial_state = s.name
         initial_time = max_duration - s.duration

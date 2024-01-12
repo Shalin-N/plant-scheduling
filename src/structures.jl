@@ -25,6 +25,7 @@ end
 struct State2
 current_state::String
 next_state::String
+next_rolling_hoz_state::String
 duration_type::String
 duration_key::String
 min_duration_key::String

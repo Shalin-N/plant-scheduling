@@ -1,12 +1,14 @@
 {
   "on": {
     "next_state": "off-dirty",
+    "next_rolling_hoz_state": "cleaning",
     "duration_type": "fixed_duration",
     "max_duration_key": "run_time",
     "include": true
   },
   "off-dirty": {
     "next_state": "cleaning",
+    "next_rolling_hoz_state": "cleaning",
     "duration_type": "random_duration",
     "min_duration_key": "min_off_time",
     "max_duration_key": "max_off_time",
@@ -14,12 +16,14 @@
   },
   "cleaning": {
     "next_state": "off",
+    "next_rolling_hoz_state": "on",
     "duration_type": "fixed_duration",
     "max_duration_key": "cleaning_time",
     "include": true
   },
   "off": {
     "next_state": "on",
+    "next_rolling_hoz_state": "on",
     "duration_type": "random_duration",
     "min_duration_key": "min_off_time",
     "max_duration_key": "max_off_time",
