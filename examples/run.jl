@@ -1,4 +1,4 @@
-include("../src/run.jl")
+include("../src/solve.jl")
 const DATA_PATH::String = joinpath(dirname(dirname(@__FILE__)), "data", "plant")
 const MAX_ITER::Int64 = 50
 const MAX_TIME = 60 # seconds (this is per solve)
