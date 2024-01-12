@@ -109,7 +109,6 @@ function update_model(𝓓::Data, 𝓜::Model, x, dicts::Dictionaries, ittr::Int
     if dicts.num_schedules_start[m.name] == dicts.num_schedules_end[m.name]; continue end
 
     if use_column_age
-
       for schedule_ref in 1:dicts.num_schedules_start[m.name]-1
           if ittr - dicts.schedules_age[m.name, schedule_ref] > MAX_COLUMN_AGE && is_valid(𝓜, x[m.name][schedule_ref])
             fix(x[m.name][schedule_ref], 0)

@@ -12,43 +12,36 @@ update the machine parameters for the next solve window in rolling horizon
 """
 function update_machine_params(𝓓, LOCK_PERIOD, dicts, x)
   for m in 𝓓.machines
-    schedule_ref = findfirst(value.(x[m.name]) .>= 0.5)
-    schedule = dicts.schedules[m.name, schedule_ref]
+    selected_schedule_ref = findfirst(value.(x[m.name]) .>= 0.5)
+    schedule = dicts.schedules[m.name, selected_schedule_ref]
     duration = 0
     initial_state = ""
     initial_time = 0
 
     for s in schedule
       duration += s.duration
-      if duration >= LOCK_PERIOD
-        state_info = 𝓓.states[findfirst(x -> x.current_state == s.name, 𝓓.states)]
+      if duration < LOCK_PERIOD; continue end # continue until lock period state
 
-        if state_info.current_state == "off"
-          initial_state = "on"
-          initial_time = 0
-          break
-        elseif state_info.current_state == "off-dirty"
-          initial_state = "cleaning"
-          initial_time = 0
-          break
-        end
+      state_info = 𝓓.states[findfirst(x -> x.current_state == s.name, 𝓓.states)]
+      max_duration = getproperty(m, Symbol(state_info.max_duration_key))
 
-        max_duration = getproperty(m, Symbol(state_info.max_duration_key))
-
-        if s.duration == max_duration
-          if state_info.current_state == "cleaning"
-            initial_state = "on"
-          else
-            initial_state = "cleaning"
-          end
-          initial_time = 0 
-        else
-          initial_state = s.name
-          initial_time = max_duration - s.duration
-        end
-        break
+      if state_info.current_state == "off"
+        initial_state = "on"
+        initial_time = 0
+      elseif state_info.current_state == "off-dirty"
+        initial_state = "cleaning"
+        initial_time = 0
+      elseif s.duration == max_duration
+        initial_state = state_info.current_state == "cleaning" ? "on" : "cleaning"
+        initial_time = 0 
+      else
+        initial_state = s.name
+        initial_time = max_duration - s.duration
       end
+
+      break
     end
+
     m.initial_state = initial_state
     m.initial_time = initial_time
   end

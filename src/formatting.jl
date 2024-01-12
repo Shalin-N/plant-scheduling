@@ -103,7 +103,7 @@ end
 
 
 """
-    add data frame to excel file
+    add data frame to excel file as a sheet
 
     Inputs:
       df: data frame to export
