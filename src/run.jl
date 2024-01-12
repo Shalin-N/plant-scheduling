@@ -95,7 +95,7 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
       RECORD_SOLVES ? write_to_xlsx(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
     else
       RECORD_TIMINGS ? add_sheet(DataFrame(iteration=1:length(elapsed_times)-1, elapsed_time=elapsed_times[1:end-1]), joinpath(PATH,"Timings.xlsx"), "Solve"*"$solve_ittr") : nothing
-      RECORD_SOLVES ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
+      RECORD_SOLVES ? add_sheet(format_output(𝓓, 𝓜, resource_volume, slack, x, dicts, HEADERS, (solve_ittr-1)*LOCK_PERIOD), joinpath(PATH, "Solves.xlsx"), "Solve"*"$solve_ittr"*"-$i") : nothing
     end
 
     # update for next itteration

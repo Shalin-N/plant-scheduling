@@ -18,11 +18,11 @@ include("structures.jl")
     Outputs:
       data frame with results
 """
-function format_output(𝓓::Data, 𝓜, resource_values, slack, x, dicts::Dictionaries, HEADERS::Vector{String})
+function format_output(𝓓::Data, 𝓜, resource_values, slack, x, dicts::Dictionaries, HEADERS::Vector{String}, starting_period=0)
   df = create_df(HEADERS, 𝓓.periods+1)
 
   # adding time periods 
-  df[!, Symbol(HEADERS[1])] = [0:𝓓.periods...]
+  df[!, Symbol(HEADERS[1])] = [starting_period:starting_period+𝓓.periods...]
 
   # add machine schedules to dataframe
   for m in 𝓓.machines
