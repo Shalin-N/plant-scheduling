@@ -118,7 +118,7 @@ function run_model(DATA_PATH::String, MAX_ITER::Int64, MAX_TIME, TOL::Float64,
   write(output_file, "LOCK PERIOD: $LOCK_PERIOD\n")
   write(output_file, "total elapsed time: $total_elapsed_time\n")
   write(output_file, "total itterations: $total_itteations\n")
-  write(output_file, "total slack value: $total_slack_value - 0 means feasible\n" )
+  write(output_file, "total slack value (O means feasible): $total_slack_value\n")
   write(output_file, "final objective: Not implemented yet, need to account for overlap caused by solve window vs lock window\n" )
   write(output_file, "total schedules: $total_schedules\n")
   write(output_file, "total fixed_variables: $total_fixed_variables\n")
