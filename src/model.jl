@@ -64,14 +64,14 @@ function build_model(𝓓::Data, schedules_dict::Dict{Tuple{String, Int64}, Vect
 
       if r.type == "storage"
         dicts.resource_volume_con[p, r.name] = @constraint(𝓜, resource_volume[p, r.name] - resource_volume[p-1, r.name] - rate_expression == 0)
-        @constraint(𝓜, storage_slack[p, r.name] >= slack[p, r.name])  # absolute value of slack for storage
-        @constraint(𝓜, storage_slack[p, r.name] >= -slack[p, r.name]) # absolute value of slack
+        @constraint(𝓜, storage_slack[p, r.name] >= slack[p, r.name])  # constraint to enforce absolute value (not used atm)
+        @constraint(𝓜, storage_slack[p, r.name] >= -slack[p, r.name]) # constraint to enforce absolute value (not used atm)
       end
 
       if r.type == "renewable"
         dicts.resource_volume_con[p, r.name] = @constraint(𝓜, resource_volume[p, r.name] - r.max_capacity - rate_expression == 0)
-        @constraint(𝓜, renewable_slack[p, r.name] >= slack[p, r.name])  # special slack for 2 step hueristic solve
-        @constraint(𝓜, renewable_slack[p, r.name] >= -slack[p, r.name]) # special slack for 2 step hueristic solve
+        @constraint(𝓜, renewable_slack[p, r.name] >= slack[p, r.name])  # constraint to enforce absolute value (not used atm)
+        @constraint(𝓜, renewable_slack[p, r.name] >= -slack[p, r.name]) # constraint to enforce absolute value (not used atm)
       end
     end
   end
