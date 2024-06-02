@@ -1,7 +1,7 @@
 # Plant Scheduling
 
 
-The bug folder contains reproduction of a bug in found in JuMP <br />
+The bug folder contains reproduction of a bug I found in JuMP <br />
 The constraintProgramming folder contains files for that approach with its own README <br />
 The src folder contains all the functions and helper functions for running the MIP solution <br />
 The example folder constains solve.jl that simplifies the proccess of running the code. <br />
