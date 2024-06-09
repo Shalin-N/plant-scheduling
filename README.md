@@ -1,10 +1,15 @@
 # Plant Scheduling
+This was the code behind my honours dissertation, the abstract for my report is below. The bug folder contains reproduction of a bug I found in JuMP. The constraintProgramming folder contains files for that approach with its own README. The src folder contains all the functions and helper functions for running the MIP solution. The example folder contains solve.jl that simplifies the proccess of running the code.
 
+# Abstract
+There are mainly two types of industrial resource production plants, namely continuous production plants and batch processing plants, each requiring distinct scheduling techniques. Batch processing offers  flexibility  in  product  customisation,  whereas  continuous  production  plants  prioritise efficiency  and  minimal  downtime. Constraint  programming  and  mixed  integer  programming (MIP) are both suitable methods for modelling batch processing plants however for continuous production plants, constraint programming is held back by its software implementation.  
 
-The bug folder contains reproduction of a bug I found in JuMP <br />
-The constraintProgramming folder contains files for that approach with its own README <br />
-The src folder contains all the functions and helper functions for running the MIP solution <br />
-The example folder constains solve.jl that simplifies the proccess of running the code. <br />
+Recent developments in IBM’s constraint programming solver have brought it up to par with MIP approaches and it is of interest as to whether constraint programming can now be used to accurately model continuous production plants. 
+
+Within this report I propose a new modelling function for constraint programming that would allow for accurate modelling of continuous production plants. I also discuss insights into modelling strategies within the current limitations, and how batch processing models could be adapted to work for continuous production.  
+
+Regarding  MIP,  I  propose  a  generalised  discrete-time  evolution-based  model  for  scheduling continuous production plants and I evaluate the impact of various heuristic techniques on the model's feasibility, schedule quality, and run-time performance. 
+
 
 ## How to Use
 ### Solve Parameters
